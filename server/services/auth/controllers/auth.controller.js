@@ -1,7 +1,8 @@
 import { app } from "../config/firebase.js";
 import { getAuth } from "firebase-admin/auth";
 import User from "../model/user.models.js"
-
+import crypto from "crypto"
+import redis from "../../../shared/redis/redis.js";
 
 export const login = async(req, res) => {
     try{
@@ -21,9 +22,39 @@ export const login = async(req, res) => {
             })
         }
 
+        const sessionId = crypto.randomUUID()
+
+        await redis.set(`session-${sessionId}`, JSON.stringify({
+            name: user.name,
+            userId: user._id,
+            email:user.email,
+            avatar:user.avatar
+        }), "EX", 7*24*60*60)
+
+
+        res.cookie("session", sessionId, {
+            httpOnly:true,
+            secure:false,
+            samesite:"strict",
+            maxAge: 7*24*60*60*1000
+        })
+
          //use redis for session managment
-        return res.json({decoded})
+        return res.status(200).json(user)
     } catch (error) {
         return res.status(500).json({message: `Error: ${error.message}`})
    }
+}
+
+export const logout = async (req, res) => {
+    try {
+        const sessionId= req.cookie.session
+        await redis.del(`session-${sessionId}`)
+
+        res.clearCookie("session")
+
+         return res.status(200).json({message: "Logout successfully"})
+    } catch (error) {
+        return res.status(500).json({message: `Logout Error`})
+    }
 }
