@@ -2,7 +2,8 @@
 import { auth, googleProvider } from './firebase'
 import {signInWithPopup} from 'firebase/auth'
 import { login } from './features/login'
-
+import {BrowserRouter, Route, Routes} from "react-router-dom"
+import Dashboard from './pages/Dashboard'
 function App() {
 
  
@@ -17,7 +18,11 @@ function App() {
 
   return (
     <>
-    <button onClick={handleLogin}>Continue with Google</button>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element= {Dashboard} />
+      </Routes>
+    </BrowserRouter>
     </>
   )
 }
