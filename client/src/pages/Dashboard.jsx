@@ -1,9 +1,55 @@
 import React from 'react';
+import { FcGoogle } from "react-icons/fc";
+import { auth, googleProvider } from '../firebase'
+import {signInWithPopup} from 'firebase/auth'
+import { login } from '../features/login'
+import { useDispatch } from 'react-redux'
+import { setUserData } from '../redux/userSlice';
 
 function Dashboard() {
-  return (
-    <div>
+  const [loading, setLoading] = React.useState(false)
+  const dispatch = useDispatch()
 
+  const handleLogin = async () => {
+    setLoading(true)
+  const result = await signInWithPopup(auth, googleProvider)
+  const token = await result.user.getIdToken()
+  const data = await login(token)
+    dispatch(setUserData(data))
+    setLoading(false)
+  }
+
+  return (
+    <div className='relative flex h-screen w-full items-center justify-center overflow-hidden bg-slate-50 px-4 transition-colors duration-300 dark:bg-[#07070c]'>
+
+      <div
+        className='pointer-events-none absolute -top-32 left-1/2 hidden h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-white/[0.05] blur-[120px] dark:block'
+      />
+
+      <div className='relative w-full max-w-sm rounded-2xl border border-slate-200/70 bg-white/80 p-8 text-center shadow-xl shadow-slate-200/50 backdrop-blur-xl dark:border-white/[0.08] dark:bg-white/[0.03] dark:shadow-black/40'>
+
+        <div className='mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-xl border border-slate-200 bg-white shadow-lg shadow-black/5 dark:border-transparent'>
+          <span className='text-lg font-bold text-slate-900'>AI</span>
+        </div>
+
+        <h2 className='text-xl font-semibold text-slate-900 dark:text-white'>
+          Welcome to Marde AI
+        </h2>
+
+        <p className='mb-6 text-[0.9375rem] text-slate-600 dark:text-slate-400'>
+          Sign in to your account to continue
+        </p>
+        <button className='flex w-full items-center justify-center gap-3 rounded-lg border border-slate-200 bg-white py-2.5 text-[13.5px] font-medium text-slate-800 shadow-sm transition-colors duration-150 hover:bg-slate-50 disabled:opacity-75 dark: border-transparent dark:bg-white dark:hover:bg-slate-100'
+         onClick={handleLogin}
+         disabled={loading}>
+          <FcGoogle />
+          {loading?"Signing in...":"Sign in with Google"}
+        </button>
+
+        <p className='text-sm text-slate-500 dark:text-slate-400'>
+          By signing in, you agree to our Terms and Privacy Policy.
+        </p>
+      </div>
     </div>
   );
 }
