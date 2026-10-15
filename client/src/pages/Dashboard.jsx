@@ -3,12 +3,14 @@ import { FcGoogle } from "react-icons/fc";
 import { auth, googleProvider } from '../firebase'
 import {signInWithPopup} from 'firebase/auth'
 import { login } from '../features/login'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setUserData } from '../redux/userSlice';
 
 function Dashboard() {
   const [loading, setLoading] = React.useState(false)
   const dispatch = useDispatch()
+
+ const {userData} = useSelector((state) => state.user)
 
   const handleLogin = async () => {
     setLoading(true)
@@ -19,7 +21,8 @@ function Dashboard() {
     setLoading(false)
   }
 
-  return (
+  if(!userData) {
+    return (
     <div className='relative flex h-screen w-full items-center justify-center overflow-hidden bg-slate-50 px-4 transition-colors duration-300 dark:bg-[#07070c]'>
 
       <div
@@ -56,6 +59,12 @@ function Dashboard() {
       </div>
     </div>
   );
+  }
+      
+  return (
+    <div>Welcome to the Dashboard</div>
+  )
+  
 }
 
 export default Dashboard;

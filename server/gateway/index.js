@@ -6,6 +6,7 @@ import morgan from "morgan";
 import proxy from "express-http-proxy";
 import { protect } from "./middleware/protect.js";
 import { getCurrentUser } from "./controllers/user.controller.js";
+import { proxyWithHeader } from "./utils/proxyWithHeader.js";
 
     
 dotenv.config();
@@ -24,7 +25,8 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 app.use("/api/auth", proxy(process.env.AUTH_SERVICE_URL || "http://localhost:8001"));
-app.get("/me", protect, getCurrentUser);
+app.use("/api/projects",protect,proxyWithHeader(process.env.PROJECT_SERVICE_URL || "http://localhost:8002"));
+app.get("/api/me", protect, getCurrentUser);
 
 app.get("/", (req, res) => {
     res.send("Gateway server is running");
