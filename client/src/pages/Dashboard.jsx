@@ -28,9 +28,13 @@ function Dashboard() {
 
       <div className='relative w-full max-w-sm rounded-2xl border border-slate-200/70 bg-white/80 p-8 text-center shadow-xl shadow-slate-200/50 backdrop-blur-xl dark:border-white/[0.08] dark:bg-white/[0.03] dark:shadow-black/40'>
 
-        <div className='mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-xl border border-slate-200 bg-white shadow-lg shadow-black/5 dark:border-transparent'>
-          <span className='text-lg font-bold text-slate-900'>AI</span>
-        </div>
+      <div className="mx-auto mb-5 h-16 w-16">
+          <img
+          src="/favicon.svg"
+          alt="Marde AI"
+          className="block h-full w-full rounded-2xl object-contain shadow-lg shadow-black/30 ring-1 ring-white/10"
+          />
+      </div>
 
         <h2 className='text-xl font-semibold text-slate-900 dark:text-white'>
           Welcome to Marde AI
