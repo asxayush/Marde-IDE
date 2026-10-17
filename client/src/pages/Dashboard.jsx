@@ -83,6 +83,7 @@ function Dashboard({ isAuthLoading }) {
         className='pointer-events-none absolute -bottom-40 right-1/4 h-[500px] w-[500px] rounded-full bg-cyan-400/[0.06] blur-[130px]'
       />
 
+      
       <Navbar />
       <main className='min-h-[calc(100vh-4rem)] flex-1'>
       </main>

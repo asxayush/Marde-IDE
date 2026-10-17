@@ -8,7 +8,6 @@ import { useDispatch } from 'react-redux'
 import { me } from './features/me.js'
 import { setUserData } from './redux/userSlice.js'
 import HomePage from './pages/HomePage.jsx'
-import Layout from './pages/Layout.jsx'
 
 function App() {
   const dispatch = useDispatch()
@@ -33,7 +32,7 @@ function App() {
     <>
 <BrowserRouter>
   <Routes>
-    <Route element={<Layout />}>
+    <Route >
       <Route path='/' element={<Dashboard isAuthLoading={isAuthLoading} />} />
       <Route path='/home' element={<HomePage />} />
       <Route path='/privacy' element={<div>Privacy Policy</div>} />
@@ -41,7 +40,6 @@ function App() {
   </Routes>
 </BrowserRouter>
     </>
-  )
+  )     
 }
-
-export default App
+  export default App
