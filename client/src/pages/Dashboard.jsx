@@ -6,12 +6,21 @@ import { login } from '../features/login'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUserData } from '../redux/userSlice';
 import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
 
-function Dashboard() {
+function Dashboard({ isAuthLoading }) {
   const [loading, setLoading] = React.useState(false)
   const dispatch = useDispatch()
 
  const {userData} = useSelector((state) => state.user)
+
+  if (isAuthLoading) {
+    return (
+      <div className='flex h-screen w-full items-center justify-center bg-slate-50 text-sm text-slate-500 dark:bg-[#07070c] dark:text-slate-400'>
+        Loading...
+      </div>
+    )
+  }
 
   const handleLogin = async () => {
     setLoading(true)
@@ -63,7 +72,7 @@ function Dashboard() {
   }
       
   return (
-    <div className='relative flex h-screen w-full flex-col overflow-hidden bg-slate-50 px-4 transition-colors duration-300 dark:bg-[#07070c]'>
+    <div className='hide-scrollbar relative flex min-h-screen w-full flex-col overflow-y-auto bg-slate-50 transition-colors duration-300 dark:bg-[#07070c]'>
 
       <div
         aria-hidden='true'
@@ -74,9 +83,10 @@ function Dashboard() {
         className='pointer-events-none absolute -bottom-40 right-1/4 h-[500px] w-[500px] rounded-full bg-cyan-400/[0.06] blur-[130px]'
       />
 
-    <div className='relative flex min-h-0 flex-1 flex-col'>
       <Navbar />
-    </div>
+      <main className='min-h-[calc(100vh-4rem)] flex-1'>
+      </main>
+      <Footer />
 
     </div>
   )

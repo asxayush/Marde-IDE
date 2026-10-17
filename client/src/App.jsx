@@ -3,30 +3,43 @@ import React from 'react'
 import {BrowserRouter, Route, Routes} from "react-router-dom"
 import Dashboard from './pages/Dashboard'
 import { useEffect } from 'react'
+import { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { me } from './features/me.js'
 import { setUserData } from './redux/userSlice.js'
+import HomePage from './pages/HomePage.jsx'
+import Layout from './pages/Layout.jsx'
 
 function App() {
-const dispatch = useDispatch()
- useEffect(() => {
-  
-    const fetch = async () => {
-      const data = await me()
-      dispatch(setUserData(data))
+  const dispatch = useDispatch()
+  const [isAuthLoading, setIsAuthLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchCurrentUser = async () => {
+      try {
+        const data = await me()
+        dispatch(setUserData(data))
+      } finally {
+        setIsAuthLoading(false)
+      }
     }
-    fetch()
- }, [])
+
+    fetchCurrentUser()
+  }, [dispatch])
 
 
 
   return (
     <>
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element= {<Dashboard />} />
-      </Routes>
-    </BrowserRouter>
+<BrowserRouter>
+  <Routes>
+    <Route element={<Layout />}>
+      <Route path='/' element={<Dashboard isAuthLoading={isAuthLoading} />} />
+      <Route path='/home' element={<HomePage />} />
+      <Route path='/privacy' element={<div>Privacy Policy</div>} />
+    </Route>
+  </Routes>
+</BrowserRouter>
     </>
   )
 }
