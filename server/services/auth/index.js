@@ -1,5 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser"
+
 import dns from "dns";
 dns.setServers(["8.8.8.8", "1.1.1.1"])
 import { connectDB } from "./config/db.js";
@@ -12,8 +14,10 @@ const port = process.env.PORT || 8001;
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 app.use('/', router)
+app.use("/api/auth", router)
 
 app.get("/", (req, res) => {
     res.send("Auth service is running");

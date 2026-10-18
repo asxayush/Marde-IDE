@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
+import ProCards from '../cards/ProCard';
+import PromptBox from '../cards/PromptBox';
+import MardeAi from '../components/MardeAi';
 
 function HomePage() {
     return (
@@ -19,17 +22,40 @@ function HomePage() {
                 </Link>
 
                 <Link
-                    to='/'
-                    className='rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-150 hover:bg-slate-700 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-200'
+                    to='/signup'
+                    className='rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition-colors duration-150 hover:bg-slate-700 dark:bg-amber-500 dark:text-slate-900 dark:hover:bg-slate-200'
                 >
                     Sign up
                 </Link>
             </nav>
 
             <main className='min-h-[calc(100vh-4rem)] flex-1'>
-                {/* Homepage content can be added here without affecting footer placement. */}
-            </main>
+                <h1 className='flex flex-col py-10 m-4 font-itself items-center justify-center  text-5xl font-bold text-slate-900 dark:text-white'> Describe it. Marde builds it.</h1>
+                
+                <div>
+                    <PromptBox onSubmit={(prompt) => setShowSignup(true)} />
+                </div>
 
+                <div
+                    aria-hidden='true'
+                    className='pointer-events-none absolute inset-0 
+    [background-image:linear-gradient(to_right,rgba(100,116,139,0.12)_1px,transparent_1px),linear-gradient(to_bottom,rgba(100,116,139,0.12)_1px,transparent_1px)]
+    [background-size:48px_48px]
+    [mask-image:radial-gradient(ellipse_at_center,black_30%,transparent_75%)]'
+                />
+                {/* glow */}
+                <div
+                    aria-hidden='true'
+                    className='pointer-events-none absolute left-1/2 top-0 h-80 w-[40rem] -translate-x-1/2 rounded-full bg-orange-500/20 blur-3xl dark:bg-orange-400/15'
+                />
+
+                <div>
+                    <ProCards />
+                </div>
+            </main>
+            <div>
+                <MardeAi />
+            </div>
             <Footer />
         </div>
     );

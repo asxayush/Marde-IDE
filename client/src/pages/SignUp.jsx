@@ -1,8 +1,8 @@
 import React from 'react';
 import { FcGoogle } from "react-icons/fc";
 import { auth, googleProvider } from '../firebase'
-import {signInWithPopup} from 'firebase/auth'
-import { login } from '../features/login'
+import { signInWithPopup } from 'firebase/auth'
+import { login } from '../api/login'
 import { useDispatch, useSelector } from 'react-redux'
 import { setUserData } from '../redux/userSlice';
 import Navbar from '../components/Navbar';
@@ -12,7 +12,7 @@ function SignUp({ isAuthLoading }) {
   const [loading, setLoading] = React.useState(false)
   const dispatch = useDispatch()
 
- const {userData} = useSelector((state) => state.user)
+  const { userData } = useSelector((state) => state.user)
 
   if (isAuthLoading) {
     return (
@@ -24,73 +24,73 @@ function SignUp({ isAuthLoading }) {
 
   const handleLogin = async () => {
     setLoading(true)
-  const result = await signInWithPopup(auth, googleProvider)
-  const token = await result.user.getIdToken()
-  const data = await login(token)
+    const result = await signInWithPopup(auth, googleProvider)
+    const token = await result.user.getIdToken()
+    const data = await login(token)
     dispatch(setUserData(data))
     setLoading(false)
   }
 
-  if(!userData) {
+  if (!userData) {
     return (
-    <div className='relative flex h-screen w-full items-center justify-center overflow-hidden bg-slate-50 px-4 transition-colors duration-300 dark:bg-[#07070c]'>
+      <div className='relative flex h-screen w-full items-center justify-center overflow-hidden bg-slate-50 px-4 transition-colors duration-300 dark:bg-[#07070c]'>
+
+        <div
+          className='pointer-events-none absolute -top-32 left-1/2 hidden h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-white/[0.05] blur-[120px] dark:block'
+        />
+
+        <div className='relative w-full max-w-sm rounded-2xl border border-slate-200/70 bg-white/80 p-8 text-center shadow-xl shadow-slate-200/50 backdrop-blur-xl dark:border-white/[0.08] dark:bg-white/[0.03] dark:shadow-black/40'>
+
+          <div className="mx-auto mb-5 h-16 w-16">
+            <img
+              src="/favicon.svg"
+              alt="Marde AI"
+              className="block h-full w-full rounded-2xl object-contain shadow-lg shadow-black/30 ring-1 ring-white/10"
+            />
+          </div>
+
+          <h2 className='text-xl font-semibold text-slate-900 dark:text-white'>
+            Welcome to Marde AI
+          </h2>
+
+          <p className='mb-6 text-[0.9375rem] text-slate-600 dark:text-slate-400'>
+            Sign in to your account to continue
+          </p>
+          <button className='flex w-full items-center justify-center gap-3 rounded-lg border border-slate-200 bg-white py-2.5 text-[13.5px] font-medium text-slate-800 shadow-sm transition-colors duration-150 hover:bg-slate-50 disabled:opacity-75 dark: border-transparent dark:bg-white dark:hover:bg-slate-100'
+            onClick={handleLogin}
+            disabled={loading}>
+            <FcGoogle />
+            {loading ? "Signing in..." : "Sign in with Google"}
+          </button>
+
+          <p className='text-sm text-slate-500 dark:text-slate-400'>
+            By signing in, you agree to our Terms and Privacy Policy.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className='hide-scrollbar relative flex min-h-screen w-full flex-col overflow-y-auto bg-slate-50 transition-colors duration-300 dark:bg-[#07070c]'>
 
       <div
-        className='pointer-events-none absolute -top-32 left-1/2 hidden h-[600px] w-[600px] -translate-x-1/2 rounded-full bg-white/[0.05] blur-[120px] dark:block'
+        aria-hidden='true'
+        className='pointer-events-none absolute -top-40 left-1/3 h-[700px] w-[700px] rounded-full bg-black-500/[0.08] blur-[140px]'
+      />
+      <div
+        aria-hidden='true'
+        className='pointer-events-none absolute -bottom-40 right-1/4 h-[500px] w-[500px] rounded-full bg-cyan-400/[0.06] blur-[130px]'
       />
 
-      <div className='relative w-full max-w-sm rounded-2xl border border-slate-200/70 bg-white/80 p-8 text-center shadow-xl shadow-slate-200/50 backdrop-blur-xl dark:border-white/[0.08] dark:bg-white/[0.03] dark:shadow-black/40'>
 
-      <div className="mx-auto mb-5 h-16 w-16">
-          <img
-          src="/favicon.svg"
-          alt="Marde AI"
-          className="block h-full w-full rounded-2xl object-contain shadow-lg shadow-black/30 ring-1 ring-white/10"
-          />
-      </div>
+      <Navbar />
+      <main className='min-h-[calc(100vh-4rem)] flex-1'>
+      </main>
+      <Footer />
 
-        <h2 className='text-xl font-semibold text-slate-900 dark:text-white'>
-          Welcome to Marde AI
-        </h2>
-
-        <p className='mb-6 text-[0.9375rem] text-slate-600 dark:text-slate-400'>
-          Sign in to your account to continue
-        </p>
-        <button className='flex w-full items-center justify-center gap-3 rounded-lg border border-slate-200 bg-white py-2.5 text-[13.5px] font-medium text-slate-800 shadow-sm transition-colors duration-150 hover:bg-slate-50 disabled:opacity-75 dark: border-transparent dark:bg-white dark:hover:bg-slate-100'
-         onClick={handleLogin}
-         disabled={loading}>
-          <FcGoogle />
-          {loading?"Signing in...":"Sign in with Google"}
-        </button>
-
-        <p className='text-sm text-slate-500 dark:text-slate-400'>
-          By signing in, you agree to our Terms and Privacy Policy.
-        </p>
-      </div>
     </div>
-  );
-  }
-      
-  // return (
-  //   <div className='hide-scrollbar relative flex min-h-screen w-full flex-col overflow-y-auto bg-slate-50 transition-colors duration-300 dark:bg-[#07070c]'>
+  )
 
-  //     <div
-  //       aria-hidden='true'
-  //       className='pointer-events-none absolute -top-40 left-1/3 h-[700px] w-[700px] rounded-full bg-black-500/[0.08] blur-[140px]'
-  //     />
-  //     <div
-  //       aria-hidden='true'
-  //       className='pointer-events-none absolute -bottom-40 right-1/4 h-[500px] w-[500px] rounded-full bg-cyan-400/[0.06] blur-[130px]'
-  //     />
-
-      
-  //     <Navbar />
-  //     <main className='min-h-[calc(100vh-4rem)] flex-1'>
-  //     </main>
-  //     <Footer />
-
-  //   </div>
-  // )
-  
 }
 export default SignUp;
