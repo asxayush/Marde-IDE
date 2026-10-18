@@ -8,7 +8,7 @@ import { setUserData } from '../redux/userSlice';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
-function Dashboard({ isAuthLoading }) {
+function SignUp({ isAuthLoading }) {
   const [loading, setLoading] = React.useState(false)
   const dispatch = useDispatch()
 
@@ -71,26 +71,26 @@ function Dashboard({ isAuthLoading }) {
   );
   }
       
-  return (
-    <div className='hide-scrollbar relative flex min-h-screen w-full flex-col overflow-y-auto bg-slate-50 transition-colors duration-300 dark:bg-[#07070c]'>
+  // return (
+  //   <div className='hide-scrollbar relative flex min-h-screen w-full flex-col overflow-y-auto bg-slate-50 transition-colors duration-300 dark:bg-[#07070c]'>
 
-      <div
-        aria-hidden='true'
-        className='pointer-events-none absolute -top-40 left-1/3 h-[700px] w-[700px] rounded-full bg-black-500/[0.08] blur-[140px]'
-      />
-      <div
-        aria-hidden='true'
-        className='pointer-events-none absolute -bottom-40 right-1/4 h-[500px] w-[500px] rounded-full bg-cyan-400/[0.06] blur-[130px]'
-      />
+  //     <div
+  //       aria-hidden='true'
+  //       className='pointer-events-none absolute -top-40 left-1/3 h-[700px] w-[700px] rounded-full bg-black-500/[0.08] blur-[140px]'
+  //     />
+  //     <div
+  //       aria-hidden='true'
+  //       className='pointer-events-none absolute -bottom-40 right-1/4 h-[500px] w-[500px] rounded-full bg-cyan-400/[0.06] blur-[130px]'
+  //     />
 
       
-      <Navbar />
-      <main className='min-h-[calc(100vh-4rem)] flex-1'>
-      </main>
-      <Footer />
+  //     <Navbar />
+  //     <main className='min-h-[calc(100vh-4rem)] flex-1'>
+  //     </main>
+  //     <Footer />
 
-    </div>
-  )
+  //   </div>
+  // )
   
 }
-export default Dashboard;
+export default SignUp;

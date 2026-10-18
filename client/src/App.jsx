@@ -1,7 +1,7 @@
 
 import React from 'react'
 import {BrowserRouter, Route, Routes} from "react-router-dom"
-import Dashboard from './pages/Dashboard'
+import SignUp from './pages/SignUp.jsx'
 import { useEffect } from 'react'
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
@@ -33,8 +33,8 @@ function App() {
 <BrowserRouter>
   <Routes>
     <Route >
-      <Route path='/' element={<Dashboard isAuthLoading={isAuthLoading} />} />
-      <Route path='/home' element={<HomePage />} />
+      <Route path='/signup' element={<SignUp isAuthLoading={isAuthLoading} />} />
+      <Route path='/' element={<HomePage />} />
       <Route path='/privacy' element={<div>Privacy Policy</div>} />
     </Route>
   </Routes>
