@@ -7,9 +7,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setUserData } from '../redux/userSlice';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import SideBar from '../components/SideBar';
 
 function SignUp({ isAuthLoading }) {
   const [loading, setLoading] = React.useState(false)
+  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true)
   const dispatch = useDispatch()
 
   const { userData } = useSelector((state) => state.user)
@@ -85,8 +87,12 @@ function SignUp({ isAuthLoading }) {
 
 
       <Navbar />
-      <main className='min-h-[calc(100vh-4rem)] flex-1'>
+      <main className={`min-h-[calc(100vh-4rem)] flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'md:ml-64' : ''}`}>
       </main>
+      <SideBar
+        isOpen={isSidebarOpen}
+        onToggle={() => setIsSidebarOpen((isOpen) => !isOpen)}
+      />
       <Footer />
 
     </div>
