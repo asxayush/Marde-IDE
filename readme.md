@@ -32,7 +32,7 @@ cloud-based workspace into one place.
 | Frontend | React, Tailwind CSS |
 | Backend | Node.js, Express |
 | Database | MongoDB |
-| Realtime | Socket.IO |
+| Realtime | 
 | AI | LangGraph, LLM APIs |
 | Infra | Docker, Redis, AWS |
 
