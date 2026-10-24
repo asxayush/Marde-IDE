@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FcGoogle } from "react-icons/fc";
 import { auth, googleProvider } from '../firebase'
 import { signInWithPopup } from 'firebase/auth'
@@ -11,7 +11,8 @@ import SideBar from '../components/SideBar';
 
 function SignUp({ isAuthLoading }) {
   const [loading, setLoading] = React.useState(false)
-  const [isSidebarOpen, setIsSidebarOpen] = React.useState(true)
+  const [activeSession, setAciveSession] = useState("projects")
+  
   const dispatch = useDispatch()
 
   const { userData } = useSelector((state) => state.user)
@@ -90,8 +91,7 @@ function SignUp({ isAuthLoading }) {
       <main className={`min-h-[calc(100vh-4rem)] flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'md:ml-64' : ''}`}>
       </main>
       <SideBar
-        isOpen={isSidebarOpen}
-        onToggle={() => setIsSidebarOpen((isOpen) => !isOpen)}
+        activeSession={activeSession} setAciveSession = {setAciveSession}
       />
       <Footer />
 
