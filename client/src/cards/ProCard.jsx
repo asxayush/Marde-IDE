@@ -1,13 +1,5 @@
 import { LuCheck, LuPlus } from 'react-icons/lu';
 
-/*
-  Marde AI pricing cards
-  - Tailwind `dark:` variant use karta hai (tumhara <html class="dark"> toggle kaam karega)
-  - Animation sirf HOVER pe: card upar uthta hai, thoda bada hota hai, border + glow aata hai
-  - Click pe koi animation nahi
-  - Prices / features placeholder hain, apne hisaab se badal lena
-*/
-
 const PLANS = [
   {
     id: 'starter',

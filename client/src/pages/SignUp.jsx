@@ -74,29 +74,32 @@ function SignUp({ isAuthLoading }) {
     );
   }
 
-  return (
-    <div className='hide-scrollbar relative flex min-h-screen w-full flex-col overflow-y-auto bg-slate-50 transition-colors duration-300 dark:bg-[#07070c]'>
+  
+return (
+  <div className='hide-scrollbar relative flex min-h-screen w-full flex-col overflow-x-hidden overflow-y-auto bg-slate-50 transition-colors duration-300 dark:bg-[#07070c]'>
+    <div
+      aria-hidden='true'
+      className='pointer-events-none absolute -top-40 left-1/3 h-[700px] w-[700px] rounded-full bg-indigo-500/[0.08] blur-[140px]'
+    />
+    <div
+      aria-hidden='true'
+      className='pointer-events-none absolute -bottom-40 right-1/4 h-[500px] w-[500px] rounded-full bg-cyan-400/[0.06] blur-[130px]'
+    />
 
-      <div
-        aria-hidden='true'
-        className='pointer-events-none absolute -top-40 left-1/3 h-[700px] w-[700px] rounded-full bg-black-500/[0.08] blur-[140px]'
-      />
-      <div
-        aria-hidden='true'
-        className='pointer-events-none absolute -bottom-40 right-1/4 h-[500px] w-[500px] rounded-full bg-cyan-400/[0.06] blur-[130px]'
-      />
+    <Navbar />
 
-
-      <Navbar />
-      <main className={`min-h-[calc(100vh-4rem)] flex-1 transition-[margin] duration-300 ${isSidebarOpen ? 'md:ml-64' : ''}`}>
-      </main>
+    <div className='relative z-10 min-h-[calc(100vh-4rem)] flex-1 transition-[margin] duration-300'>
       <SideBar
-        activeSession={activeSession} setAciveSession = {setAciveSession}
+        activeSession={activeSession}
+        setActiveSession={setActiveSession}
       />
-      <Footer />
-
     </div>
-  )
+
+    <Footer />
+  </div>
+);
+ 
 
 }
+
 export default SignUp;
