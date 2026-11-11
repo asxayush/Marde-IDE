@@ -1,6 +1,6 @@
 {
-  "type": "module",
-  "dependencies": {
-    "ioredis": "^6.0.0"
-  }
+  "name": "marde-ide",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module"
 }
