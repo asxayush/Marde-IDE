@@ -7,7 +7,9 @@ export const me = async () => {
         const res = await api.get("/api/me")
         return res.data.user
     } catch (error) {
-        console.log(error)
+        if (error.response?.status !== 401) {
+            console.error("Current user request failed:", error)
+        }
         return null;
     }
 }

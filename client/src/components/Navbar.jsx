@@ -12,7 +12,11 @@ function Navbar() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [open, setMenuOpen] = useState(false);
-    const [isDark, setIsDark] = useState(true);
+    const [isDark, setIsDark] = useState(() => {
+        if (typeof window === 'undefined') return true;
+        const theme = window.localStorage.getItem('theme');
+        return theme ? theme === 'dark' : true;
+    });
     const { userData } = useSelector((state) => state.user);
     const name = userData?.name?.trim() || 'Guest';
     const initials = name
@@ -26,11 +30,8 @@ function Navbar() {
 
     useEffect(() => {
         if (typeof window === 'undefined') return;
-        const theme = window.localStorage.getItem('theme');
-        const dark = theme ? theme === 'dark' : true;
-        document.documentElement.classList.toggle('dark', dark);
-        setIsDark(dark);
-    }, []);
+        document.documentElement.classList.toggle('dark', isDark);
+    }, [isDark]);
 
     const handleLogout = async () => {
     const res = await logout();
@@ -54,7 +55,7 @@ function Navbar() {
         <nav className='flex h-16 w-full items-center justify-between border-b border-slate-200/70 bg-white/70 px-4 font-sans backdrop-blur-lg transition-colors duration-300 sm:px-6 dark:border-white/[0.08] dark:bg-white/[0.03]'>
             <div className='flex min-w-0 items-center gap-2.5'>
                 <div className='flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-900 text-xs font-bold text-white shadow-sm dark:bg-white dark:text-slate-900'>
-                    <img src='../../public/favicon.svg' alt='Logo' />
+                    <img src='/favicon.svg' alt='Logo' />
                 </div>
                 <Link to='/home'>
                     <span className='truncate text-sm font-bold tracking-tight text-slate-900 dark:text-white'>

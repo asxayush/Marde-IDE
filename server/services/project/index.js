@@ -8,17 +8,16 @@ import router from "./routes/project.routes.js";
 
 dotenv.config();
 
-const port = process.env.PORT || 8001;
+const port = process.env.PORT || 8002;
 
 const app = express();
 app.use(express.json());
 
-app.use("/", router)
-
-
 app.get("/", (req, res) => {
     res.send("Project service is running");
 });
+
+app.use("/", router)
 
 app.listen(port, () => {
     console.log(`Project service is running on port ${port}`);

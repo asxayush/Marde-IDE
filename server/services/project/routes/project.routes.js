@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post("/", createProject)
 router.get("/", getProjects)
-router.get("/", getStarredProjects)
+router.get("/starred", getStarredProjects)
 router.get("/:id", getProjectById)
 router.patch("/:id", toggleStar)
 router.delete("/:id", deleteProject)

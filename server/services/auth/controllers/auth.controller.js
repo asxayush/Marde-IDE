@@ -7,6 +7,9 @@ import redis from "../../../shared/redis/redis.js";
 export const login = async(req, res) => {
     try{
         const {token} = req.body
+        if (!token) {
+            return res.status(400).json({message: "Firebase token is required"})
+        }
         const decoded = await getAuth(app).verifyIdToken(token)
        
         let user = await User.findOne({
@@ -16,7 +19,7 @@ export const login = async(req, res) => {
         if(!user){
             user = await User.create({
                 firebaseUid: decoded.uid,
-                name: decoded.name,
+                name: decoded.name || decoded.email?.split("@")[0] || "Marde user",
                 email: decoded.email,
                 avatar: decoded.picture,
             })
@@ -42,13 +45,26 @@ export const login = async(req, res) => {
          //use redis for session managment
         return res.status(200).json(user)
     } catch (error) {
-        return res.status(500).json({message: `Error: ${error.message}`})
+        console.error("Login error:", error)
+        const firebaseTokenError = [
+            "auth/argument-error",
+            "auth/id-token-expired",
+            "auth/id-token-revoked",
+            "auth/invalid-id-token",
+        ].includes(error?.code)
+        const status = firebaseTokenError ? 401 : 500
+        return res.status(status).json({
+            message: firebaseTokenError ? "Invalid or expired Firebase token" : "Login failed",
+        })
    }
 }
 
 export const logout = async (req, res) => {
     try {
-        const sessionId= req.cookies.session
+        const sessionId = req.cookies?.session
+        if (!sessionId) {
+            return res.status(204).send()
+        }
         await redis.del(`session-${sessionId}`)
 
         res.clearCookie("session")

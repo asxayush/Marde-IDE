@@ -45,7 +45,7 @@ export default function PromptBox({ onSubmit }) {
     }
   };
 
-  const useSuggestion = (text) => {
+  const selectSuggestion = (text) => {
     setValue(text);
     // state update ke baad height theek karo
     requestAnimationFrame(() => {
@@ -102,7 +102,7 @@ export default function PromptBox({ onSubmit }) {
           <button
             key={text}
             type='button'
-            onClick={() => useSuggestion(text)}
+            onClick={() => selectSuggestion(text)}
             className='rounded-full border border-slate-200 bg-white/60 px-3 py-1.5 text-xs text-slate-600 transition-colors hover:border-orange-500 hover:text-orange-600 dark:border-white/[0.1] dark:bg-white/[0.03] dark:text-slate-300 dark:hover:border-orange-400 dark:hover:text-orange-300'
           >
             {text}

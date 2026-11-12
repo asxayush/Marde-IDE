@@ -3,8 +3,11 @@ import Footer from '../components/Footer';
 import ProCards from '../cards/ProCard';
 import PromptBox from '../cards/PromptBox';
 import MardeAi from '../components/MardeAi';
+import { useNavigate } from 'react-router-dom';
 
 function HomePage() {
+    const navigate = useNavigate();
+
     return (
         <div className='hide-scrollbar flex min-h-screen flex-col overflow-y-auto bg-slate-50 font-sans transition-colors duration-300 dark:bg-[#07070c]'>
             <nav className='flex h-16 w-full shrink-0 items-center justify-between border-b border-slate-200/70 bg-white/70 px-4 backdrop-blur-lg sm:px-6 dark:border-white/[0.08] dark:bg-white/[0.03]'>
@@ -33,7 +36,7 @@ function HomePage() {
                 <h1 className='flex flex-col py-10 m-4 font-itself items-center justify-center  text-5xl font-bold text-slate-900 dark:text-white'> Describe it. Marde builds it.</h1>
                 
                 <div>
-                    <PromptBox onSubmit={(prompt) => setShowSignup(true)} />
+                    <PromptBox onSubmit={() => navigate('/signup')} />
                 </div>
 
                 <div

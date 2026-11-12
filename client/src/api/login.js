@@ -7,6 +7,6 @@ export const login = async (token) => {
         return data
     } catch (error) {
         console.log(error)
-        return null;
+        throw new Error(error.response?.data?.message || "Login request failed", { cause: error })
     }
 }

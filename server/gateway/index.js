@@ -14,6 +14,10 @@ dotenv.config();
 const port = process.env.PORT || 8000;
 
 const app = express();
+const upstreamUnavailable = (serviceName) => (error, res) => {
+    console.error(`${serviceName} error:`, error.message);
+    return res.status(503).json({ message: `${serviceName} is unavailable` });
+};
 
 app.use(cors(
     {origin: process.env.FRONTEND_URL || "http://localhost:5173",
@@ -24,8 +28,13 @@ app.use(cors(
 app.use(cookieParser());
 app.use(morgan("dev"));
 
-app.use("/api/auth", proxy(process.env.AUTH_SERVICE_URL || "http://localhost:8001"));
-app.use("/api/projects",protect,proxyWithHeader(process.env.PROJECT_SERVICE_URL || "http://localhost:8002"));
+app.use("/api/auth", proxy(process.env.AUTH_SERVICE_URL || "http://localhost:8001", {
+    proxyErrorHandler: upstreamUnavailable("Authentication service"),
+}));
+app.use("/api/projects", protect, proxyWithHeader(
+    process.env.PROJECT_SERVICE_URL || "http://localhost:8002",
+    { proxyErrorHandler: upstreamUnavailable("Project service") },
+));
 app.get("/api/me", protect, getCurrentUser);
 
 app.get("/", (req, res) => {

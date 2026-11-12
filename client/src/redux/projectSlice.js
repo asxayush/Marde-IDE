@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 
 
 const projectSlice = createSlice({
-    name: 'user',
+    name: 'project',
     initialState:{
       projects: [],
       starredProjects:[]

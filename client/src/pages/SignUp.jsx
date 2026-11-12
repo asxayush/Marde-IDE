@@ -64,14 +64,15 @@ function LoginCard({ onLogin, loading, error }) {
 
 function SignUp({ isAuthLoading }) {
   const [loading, setLoading] = useState(false);
-  const [loadingProjects, setLoadingProjects] = useState(true);
+  const [loadingProjects, setLoadingProjects] = useState(false);
 
   const [error, setError] = useState("");
   const [activeSession, setActiveSession] = useState("projects");
 
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.user);
-  const { projects =[], starredProjects=[] } = useSelector((state) => state.project);
+  const { projects = [], starredProjects = [] } = useSelector((state) => state.project);
+  const visibleProjects = activeSession === "projects" ? projects : starredProjects;
 
   
 
@@ -94,27 +95,24 @@ function SignUp({ isAuthLoading }) {
     }
   };
 
-  const fetchAllProjects = async () => {
-    setLoadingProjects(true)
-    const data = await getProjects()
-    dispatch(setProjects(data))
-    setLoadingProjects(false)
-  }
-
-  const fetchStarredProjects = async () => {
-    setLoadingProjects(true)
-    const data = await getStarredProjects()
-    dispatch(setStarredProjects(data))
-    setLoadingProjects(false)
-  }
-
   useEffect(() => {
-    if (activeSession == "projects") {
-      fetchAllProjects()
-    } else {
-      fetchStarredProjects()
+    if (!userData) {
+      return
     }
-  }, [activeSession])
+    const fetchProjects = async () => {
+      setLoadingProjects(true)
+      const data = activeSession === "projects"
+        ? await getProjects()
+        : await getStarredProjects()
+      if (activeSession === "projects") {
+        dispatch(setProjects(Array.isArray(data) ? data : []))
+      } else {
+        dispatch(setStarredProjects(Array.isArray(data) ? data : []))
+      }
+      setLoadingProjects(false)
+    }
+    void fetchProjects()
+  }, [activeSession, dispatch, userData])
 
   if (isAuthLoading) {
     return (
@@ -187,7 +185,7 @@ function SignUp({ isAuthLoading }) {
               <FiLoader />
               
             </div>
-          ) : projects.length == 0 ? (
+          ) : visibleProjects.length === 0 ? (
               <div className="mb-8 flex flex-col items-center justify-center rounded-2xl border border-dashed border-slate-200 bg-white/40 py-16 text-center dark:border-white/[0.1] dark:bg-white/[0.01]">
 
               </div>
